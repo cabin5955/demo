@@ -51,7 +51,11 @@ int c_match_len(int len)
 	return r_len;
 }
 
-unsigned char * loadBMPRaw(const char * imagepath, unsigned int& outWidth, unsigned int& outHeight, bool flipY){
+unsigned char * loadBMP24(const char * imagepath, 
+						unsigned int& outWidth, 
+						unsigned int& outHeight, 
+						bool flipY){
+
 	printf("Reading image %s\n", imagepath);
 	outWidth = -1;
 	outHeight = -1;
@@ -85,8 +89,8 @@ unsigned char * loadBMPRaw(const char * imagepath, unsigned int& outWidth, unsig
 	// Read the information about the image
 	dataPos    = *(int*)&(header[0x0A]);
 	imageSize  = *(int*)&(header[0x22]);
-	outWidth      = *(int*)&(header[0x12]);
-	outHeight     = *(int*)&(header[0x16]);
+	outWidth   = *(int*)&(header[0x12]);
+	outHeight  = *(int*)&(header[0x16]);
 
 	// Some BMP files are misformatted, guess missing information
 	if (imageSize==0)    imageSize=outWidth*outHeight*3; // 3 : one byte for each Red, Green and Blue component
@@ -97,7 +101,7 @@ unsigned char * loadBMPRaw(const char * imagepath, unsigned int& outWidth, unsig
 
 	// Read the actual data from the file into the buffer
 	fread(data,1,imageSize,file);
-
+		
 	// Everything is in memory now, the file wan be closed
 	fclose (file);
 
@@ -116,7 +120,11 @@ unsigned char * loadBMPRaw(const char * imagepath, unsigned int& outWidth, unsig
 		delete [] tmpBuffer;
 	}
 
-	return data;
+	C_CLR_RGB *rgb_data = new C_CLR_RGB[outWidth*outHeight];
+
+	memcpy((unsigned char*)rgb_data,data,imageSize);
+	
+	return (unsigned char*)rgb_data;
 }
 
 Image* loadBMP32(const char* filename) {
@@ -197,7 +205,7 @@ Image* loadBMP32(const char* filename) {
 	}
 
 	int match_size = match_width * match_height * bits;
-	C_Color *imgData = (C_Color*)malloc(match_size);
+	C_CLR_RGBA *imgData = (C_CLR_RGBA*)malloc(match_size);
 	memset(imgData,0,match_size);
 	input.seekg(dataOffset, ios_base::beg);
 	input.read(pixels, size);
@@ -267,7 +275,7 @@ Image* loadBMP(const char * imagepath){
 		return loadBMP32(imagepath);
 	}
 	else{
-		data = loadBMPRaw(imagepath, outWidth, outHeight, false);
+		data = loadBMP24(imagepath, outWidth, outHeight, false);
 		return new Image((char*)data, outWidth, outHeight, GL_RGB);
 	}
 }

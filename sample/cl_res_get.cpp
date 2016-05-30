@@ -65,7 +65,7 @@ void res_init()
 	fseek(f,0,SEEK_SET);
 	for(int i = 0; i < FILE_NUM; i++)
 	{
-		C_Color *imgData = (C_Color*)malloc(bmp_info[i].size);
+		C_CLR_RGBA *imgData = (C_CLR_RGBA*)malloc(bmp_info[i].size);
 		memset(imgData,0,bmp_info[i].size);
 		fread(imgData,bmp_info[i].size,1,f);
 

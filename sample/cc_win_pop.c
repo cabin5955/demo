@@ -46,13 +46,13 @@ void cl_one_frame_flash_pop()
 void do_init_pop()
 {
 	cl_init_bmp(&bg_bmp, "xianyou\\bg.bmp");
-	cl_init_bmp(&loading_bmp, "xianyou\\loading.bmp");
-	cl_init_bmp(&button, "xianyou\\start.bmp");
+	cl_init_bmp(&loading_bmp, "xianyou\\sort.bmp");
+	cl_init_bmp(&button, "xianyou\\nav.bmp");
 
-	button_pop[0].x = 1024<<16;
-	button_pop[0].y = 768<<16;
-	button_pop[0].x_aim = 1024<<16;
-	button_pop[0].y_aim = 768<<16;
+	button_pop[0].x = WIDTH<<15;
+	button_pop[0].y = HEIGHT<<15;
+	button_pop[0].x_aim = WIDTH<<15;
+	button_pop[0].y_aim = HEIGHT<<15;
 }
 void do_into_pop()
 {
@@ -154,9 +154,10 @@ int cl_draw_main_pop()
 	cl_draw_bmp(&bg_bmp,WIDTH<<15,HEIGHT<<15);
 	cl_draw_bmp(&loading_bmp,WIDTH<<15,HEIGHT<<15);
 	//cl_draw_main_button(WIN_pop);
-	//cl_draw_bmp(&button,1024<<16,768<<16);
+	cl_draw_bmp(&button,WIDTH<<15,HEIGHT<<15);
 	static int hero_run_frame=0;
 	//cl_draw_bmp(hero_tex[hero_run_frame++%O_sizeof(hero_tex)]);
+	
 	return 0;
 }
 void cl_do_at_first_pop(int layer)
@@ -167,7 +168,7 @@ void cl_do_at_first_pop(int layer)
     cl_set_win_out(do_out_pop,WIN_pop);
     cl_set_win_layer(layer,WIN_pop);
     //---add your code here--------------------------
-    //cl_set_button(button_pop,O_sizeof(button_pop), WIN_pop);
+    cl_set_button(button_pop,O_sizeof(button_pop), WIN_pop);
     do_init_pop();
 }
 

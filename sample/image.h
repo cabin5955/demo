@@ -19,13 +19,20 @@ class Image {
 		int format;
 };
 
-typedef struct C_Color
+typedef struct C_CLR_RGBA
 {
-	 char r;
-	 char g;
-	 char b;
-	 char a;
-}C_Color;
+	 unsigned char r;
+	 unsigned char g;
+	 unsigned char b;
+	 unsigned char a;
+}C_CLR_RGBA;
+
+typedef struct C_CLR_RGB
+{
+	unsigned char r;
+	unsigned char g;
+	unsigned char b;
+}C_CLR_RGB;
 
 typedef struct C_BMP_RES
 {

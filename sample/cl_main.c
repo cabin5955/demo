@@ -226,7 +226,6 @@ void cl_main_draw(CL_EVENT *o_event,U32 *info)
 			}
 			
 	    	cl_win_draw_main[win_id[i]]();
-			cl_draw_main_button(win_id[i]);
 
 			if(i==0 && top_id==0 && mask>0)
 			{
