@@ -34,8 +34,7 @@ bool Texture::Load()
     glGenTextures(1, &m_textureObj);
     glBindTexture(m_textureTarget, m_textureObj);
 
-	if(m_pImage->format == GL_RGBA){
-		glTexImage2D(m_textureTarget,                		//Always GL_TEXTURE_2D
+	glTexImage2D(m_textureTarget,                		//Always GL_TEXTURE_2D
 					 0,                            			//0 for now
 					 GL_RGBA,                       		//Format OpenGL uses for image
 					 m_pImage->width, m_pImage->height,  	//Width and height
@@ -43,18 +42,8 @@ bool Texture::Load()
 					 GL_RGBA, 								//GL_RGB, because pixels are stored in RGB format
 					 GL_UNSIGNED_BYTE, 						//GL_UNSIGNED_BYTE, because pixels are stored
 					                   						//as unsigned numbers
-					 m_pImage->pixels);              		//The actual pixel data
-	}
-	else if(m_pImage->format == GL_RGB){
-		glTexImage2D(m_textureTarget, 
-					0,
-					GL_RGB, 
-					width, height, 
-					0,
-					GL_BGR, 
-					GL_UNSIGNED_BYTE, 
-					m_pImage->pixels);
-	}
+					 m_pImage->pixels);              		//The actual pixel data	
+	
     glTexParameterf(m_textureTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameterf(m_textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 

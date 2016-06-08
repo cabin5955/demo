@@ -121,10 +121,21 @@ unsigned char * loadBMP24(const char * imagepath,
 	}
 
 	C_CLR_RGB *rgb_data = new C_CLR_RGB[outWidth*outHeight];
+	C_CLR_RGBA *rgba_data = new C_CLR_RGBA[outWidth*outHeight];
 
 	memcpy((unsigned char*)rgb_data,data,imageSize);
+
+	for(int y = 0; y < outHeight; y++) {
+		for(int x = 0; x < outWidth; x++) {
+			int i = outWidth * y + x;
+			rgba_data[i].r = rgb_data[i].b;
+			rgba_data[i].g = rgb_data[i].g;
+			rgba_data[i].b = rgb_data[i].r;
+			rgba_data[i].a = 255;
+		}
+	}
 	
-	return (unsigned char*)rgb_data;
+	return (unsigned char*)rgba_data;
 }
 
 Image* loadBMP32(const char* filename) {
@@ -276,6 +287,6 @@ Image* loadBMP(const char * imagepath){
 	}
 	else{
 		data = loadBMP24(imagepath, outWidth, outHeight, false);
-		return new Image((char*)data, outWidth, outHeight, GL_RGB);
+		return new Image((char*)data, outWidth, outHeight, GL_RGBA);
 	}
 }
